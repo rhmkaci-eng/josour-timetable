@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الجدول الأسبوعي لمداومة النادي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .infographic-container {
+            background: linear-gradient(to bottom, #ffffff, #f4f6f9);
+            width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 2px solid #0a1f3d;
+        }
+        .header {
+            background: linear-gradient(135deg, #0a1f3d, #1a3c6b);
+            padding: 30px 40px;
+            text-align: center;
+            position: relative;
+            color: white;
+            border-bottom: 5px solid #d4af37;
+        }
+        .logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px dashed #d4af37;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: #d4af37;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        .main-title {
+            font-family: 'Amiri', serif;
+            font-size: 38px;
+            color: #d4af37;
+            margin: 0 0 10px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin: 0;
+        }
+        .table-container {
+            padding: 30px 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        th {
+            background-color: #0a1f3d;
+            color: #d4af37;
+            font-size: 20px;
+            padding: 15px;
+            border: 1px solid #c0c0c0;
+        }
+        .time-subtext {
+            display: block;
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+        td {
+            padding: 18px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a3c6b;
+            border: 1px solid #c0c0c0;
+            background-color: #ffffff;
+        }
+        tr:nth-child(even) td {
+            background-color: #f8f9fa;
+        }
+        .day-col {
+            background-color: #eef2f5 !important;
+            color: #0a1f3d;
+            font-size: 20px;
+        }
+        .closed {
+            background-color: #e0e0e0 !important;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #7f8c8d;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="infographic-container">
+    <div class="header">
+        <div class="logos">
+            <div class="logo-circle">مكان<br>الشعار</div>
+            <div class="logo-circle">مكان<br>الشعار</div>
+        </div>
+        <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي | مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
+        <p class="subtitle">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th width="20%">اليوم</th>
+                    <th width="40%">الفترة الصباحية <span class="time-subtext">08:30 إلى 12:45</span></th>
+                    <th width="40%">الفترة المسائية <span class="time-subtext">12:30 إلى 15:30</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="day-col">السبت</td>
+                    <td>محمد</td>
+                    <td>فيصل</td>
+                </tr>
+                <tr>
+                    <td class="day-col">الأحد</td>
+                    <td>أشواق</td>
+                    <td>أحمد</td>
+                </tr>
+                <tr>
+                    <td class="day-col">الإثنين</td>
+                    <td>آية</td>
+                    <td>نعمة + هديل</td>
+                </tr>
+                <tr>
+                    <td class="day-col">الثلاثاء</td>
+                    <td>نريمان</td>
+                    <td class="closed">مغلق 🔒</td>
+                </tr>
+                <tr>
+                    <td class="day-col">الأربعاء</td>
+                    <td>نور</td>
+                    <td>مريم</td>
+                </tr>
+                <tr>
+                    <td class="day-col">الخميس</td>
+                    <td>سعيد</td>
+                    <td>عبد الرزاق</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
