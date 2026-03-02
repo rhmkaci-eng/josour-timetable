@@ -9,20 +9,30 @@
     <style>
         body {
             background-color: #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 20px;
             font-family: 'Tajawal', sans-serif;
+            /* التعديل هنا للسماح بالتمرير على الهواتف */
+            margin: 0;
+            display: block; 
+            text-align: center;
         }
+        
+        /* غلاف يسمح بالتمرير الأفقي على الشاشات الصغيرة */
+        .scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+
         .infographic-container {
             background: linear-gradient(to bottom, #ffffff, #f4f6f9);
-            width: 800px;
+            width: 800px; /* عرض ثابت لضمان عدم تشوه التصميم */
+            margin: 0 auto; /* توسيط الجدول */
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             border: 2px solid #0a1f3d;
-            margin-bottom: 20px; /* مسافة بين الجدول وزر التحميل */
+            text-align: right;
         }
         .header {
             background: linear-gradient(135deg, #0a1f3d, #1a3c6b);
@@ -100,7 +110,13 @@
             font-style: italic;
         }
         
-        /* تصميم زر التحميل */
+        .btn-container {
+            margin-top: 10px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
         .download-btn {
             background-color: #0a1f3d;
             color: #d4af37;
@@ -113,7 +129,7 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
         }
@@ -126,77 +142,82 @@
 </head>
 <body>
 
-    <div class="infographic-container" id="capture-area">
-        <div class="header">
-            <div class="logos">
-                <img src="faculty-logo.png" alt="شعار الكلية" class="logo-img" onerror="this.style.display='none'">
-                <img src="club-logo.png" alt="شعار النادي" class="logo-img" onerror="this.style.display='none'">
+    <div class="scroll-wrapper">
+        <div class="infographic-container" id="capture-area">
+            <div class="header">
+                <div class="logos">
+                    <img src="faculty-logo.png" alt="شعار الكلية" class="logo-img" onerror="this.style.display='none'">
+                    <img src="club-logo.png" alt="شعار النادي" class="logo-img" onerror="this.style.display='none'">
+                </div>
+                <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي | مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
+                <p class="subtitle">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
             </div>
-            <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي | مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
-            <p class="subtitle">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
-        </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th width="20%">اليوم</th>
-                        <th width="40%">الفترة الصباحية <span class="time-subtext">08:30 إلى 12:45</span></th>
-                        <th width="40%">الفترة المسائية <span class="time-subtext">12:30 إلى 15:30</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="day-col">السبت</td>
-                        <td>محمد</td>
-                        <td>فيصل</td>
-                    </tr>
-                    <tr>
-                        <td class="day-col">الأحد</td>
-                        <td>أشواق</td>
-                        <td>أحمد</td>
-                    </tr>
-                    <tr>
-                        <td class="day-col">الإثنين</td>
-                        <td>آية</td>
-                        <td>نعمة + هديل</td>
-                    </tr>
-                    <tr>
-                        <td class="day-col">الثلاثاء</td>
-                        <td>نريمان</td>
-                        <td class="closed">مغلق 🔒</td>
-                    </tr>
-                    <tr>
-                        <td class="day-col">الأربعاء</td>
-                        <td>نور</td>
-                        <td>مريم</td>
-                    </tr>
-                    <tr>
-                        <td class="day-col">الخميس</td>
-                        <td>سعيد</td>
-                        <td>عبد الرزاق</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="20%">اليوم</th>
+                            <th width="40%">الفترة الصباحية <span class="time-subtext">08:30 إلى 12:45</span></th>
+                            <th width="40%">الفترة المسائية <span class="time-subtext">12:30 إلى 15:30</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="day-col">السبت</td>
+                            <td>محمد</td>
+                            <td>فيصل</td>
+                        </tr>
+                        <tr>
+                            <td class="day-col">الأحد</td>
+                            <td>أشواق</td>
+                            <td>أحمد</td>
+                        </tr>
+                        <tr>
+                            <td class="day-col">الإثنين</td>
+                            <td>آية</td>
+                            <td>نعمة + هديل</td>
+                        </tr>
+                        <tr>
+                            <td class="day-col">الثلاثاء</td>
+                            <td>نريمان</td>
+                            <td class="closed">متاح للتطوع</td>
+                        </tr>
+                        <tr>
+                            <td class="day-col">الأربعاء</td>
+                            <td>نور</td>
+                            <td>مريم</td>
+                        </tr>
+                        <tr>
+                            <td class="day-col">الخميس</td>
+                            <td>سعيد</td>
+                            <td>عبد الرزاق</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <button class="download-btn" onclick="downloadTable()">
-        📥 تحميل الجدول بصيغة PNG
-    </button>
+    <div class="btn-container">
+        <button class="download-btn" onclick="downloadTable()">
+            📥 تحميل الجدول بصيغة PNG
+        </button>
+    </div>
 
     <script>
         function downloadTable() {
-            // تحديد العنصر المراد تصويره
             const element = document.getElementById('capture-area');
             
-            // استخدام المكتبة لتوليد الصورة
+            // إضافة إعدادات مخصصة للهواتف لضمان التقاط العرض بالكامل
             html2canvas(element, {
-                scale: 3, // دقة عالية جداً للصورة
-                backgroundColor: null,
-                useCORS: true // للسماح بتحميل الصور (الشعارات) داخل الكانفاس
+                scale: 2, // تم تقليلها قليلاً لتعمل بسلاسة على كافة الهواتف دون تقليل الجودة بشكل ملحوظ
+                backgroundColor: "#ffffff",
+                useCORS: true,
+                windowWidth: 850, // إجبار المكتبة على قراءة العرض كاملاً حتى لو كانت شاشة الهاتف صغيرة
+                scrollX: 0,
+                scrollY: 0
             }).then(canvas => {
-                // إنشاء رابط التحميل وتفعيله
                 const link = document.createElement('a');
                 link.download = 'جدول_مداومة_الأسبوع.png';
                 link.href = canvas.toDataURL('image/png');
