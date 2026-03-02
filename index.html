@@ -4,204 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجدول الأسبوعي لمداومة النادي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body {
-            background-color: #e9ecef;
-            padding: 20px;
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            display: block; 
-            text-align: center;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy:        #07172e;
+            --navy-mid:    #0e2a4d;
+            --navy-light:  #16406e;
+            --gold:        #c9a227;
+            --gold-light:  #e2bd5a;
+            --gold-pale:   #f7eec8;
+            --cream:       #fdfaf2;
+            --border:      rgba(201,162,39,0.35);
+            --shadow:      rgba(7,23,46,0.55);
         }
-        
+
+        body {
+            background: radial-gradient(ellipse at 60% 0%, #1a3a6b 0%, #07172e 60%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+
+        /* ─── HINT BANNER ─────────────────────────── */
+        .hint-banner {
+            background: linear-gradient(135deg, rgba(201,162,39,0.15), rgba(201,162,39,0.05));
+            border: 1px solid var(--border);
+            color: var(--gold-light);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 15px;
+            letter-spacing: 0.02em;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ─── SCROLL WRAPPER ──────────────────────── */
         .scroll-wrapper {
             width: 100%;
             overflow-x: auto;
-            padding-bottom: 20px;
+            display: flex;
+            justify-content: center;
         }
 
+        /* ─── CARD ────────────────────────────────── */
         .infographic-container {
-            background: linear-gradient(to bottom, #ffffff, #f4f6f9);
-            width: 800px;
-            margin: 0 auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 820px;
+            flex-shrink: 0;
+            background: var(--cream);
+            border-radius: 20px;
             overflow: hidden;
-            border: 2px solid #0a1f3d;
-            text-align: right;
+            box-shadow:
+                0 0 0 1px var(--border),
+                0 0 0 4px rgba(201,162,39,0.08),
+                0 30px 80px var(--shadow),
+                0 8px 24px rgba(0,0,0,0.3);
             position: relative;
         }
-        
-        /* تقليل مساحة الجزء الأزرق العلوي */
+
+        /* ─── DECORATIVE TOP BORDER ───────────────── */
+        .card-border-top {
+            height: 5px;
+            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+        }
+
+        /* ─── HEADER ──────────────────────────────── */
         .header {
-            background: linear-gradient(135deg, #0a1f3d, #142e52);
-            padding: 15px 40px; /* تم تقليل الحشوة */
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 60%, #112240 100%);
+            padding: 28px 44px 24px;
             text-align: center;
             position: relative;
-            color: white;
-            border-bottom: 5px solid #d4af37;
+            overflow: hidden;
         }
+
+        /* geometric ornament lines */
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 38px,
+                    rgba(201,162,39,0.04) 38px,
+                    rgba(201,162,39,0.04) 40px
+                );
+            pointer-events: none;
+        }
+
+        /* arabesque corner ornament */
+        .header::after {
+            content: '❋';
+            position: absolute;
+            bottom: 12px;
+            left: 22px;
+            font-size: 22px;
+            color: rgba(201,162,39,0.2);
+            pointer-events: none;
+        }
+        .ornament-right {
+            position: absolute;
+            bottom: 12px;
+            right: 22px;
+            font-size: 22px;
+            color: rgba(201,162,39,0.2);
+            pointer-events: none;
+        }
+
         .logos {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px; /* تم تقليل المسافة */
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
         }
+
+        .logo-placeholder {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--gold);
+            background: rgba(201,162,39,0.07);
+        }
+
         .logo-img {
-            height: 70px; /* تم تصغير الشعار قليلاً ليكسب مساحة */
+            height: 72px;
             max-width: 120px;
             object-fit: contain;
         }
+
+        /* divider line under logos */
+        .header-divider {
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto 14px;
+            position: relative;
+            z-index: 1;
+        }
+
         .main-title {
             font-family: 'Amiri', serif;
-            font-size: 34px; /* تم تصغير الخط قليلاً ليتناسب مع المساحة الجديدة */
-            color: #d4af37;
-            margin: 0 0 5px 0;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-        
-        [contenteditable="true"] {
-            outline: none;
-            transition: background-color 0.3s;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-        [contenteditable="true"]:focus {
-            background-color: rgba(212, 175, 55, 0.2);
-            border: 1px dashed #d4af37;
+            font-size: 30px;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
         }
 
         .subtitle {
-            font-size: 17px;
-            color: #e0e0e0;
-            margin: 0;
-            display: inline-block;
-        }
-        .table-container {
-            padding: 25px 40px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        /* تحسين عناوين الأعمدة والمواقيت */
-        th {
-            background: linear-gradient(180deg, #0a1f3d 0%, #173661 100%);
-            color: #ffffff;
-            font-size: 22px;
-            padding: 15px;
-            border: 1px solid #c0c0c0;
-            border-bottom: 3px solid #d4af37;
-        }
-        .time-subtext {
-            display: inline-block;
-            background-color: #d4af37;
-            color: #0a1f3d;
-            font-weight: bold;
             font-size: 15px;
-            padding: 4px 15px;
-            border-radius: 20px; /* جعل التوقيت داخل شكل بيضاوي أنيق */
-            margin-top: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        /* تكبير الأسماء وجعلها أوضح */
-        td {
-            padding: 18px;
-            text-align: center;
-            font-size: 22px; /* تم تكبير الخط */
-            font-weight: 800; /* تم جعل الخط أعرض وأوضح */
-            color: #1a3c6b;
-            border: 1px solid #c0c0c0;
-            background-color: #ffffff;
-        }
-        tr:nth-child(even) td {
-            background-color: #f8f9fa;
-        }
-        .day-col {
-            background-color: #eef2f5 !important;
-            color: #0a1f3d;
-            font-size: 22px;
-        }
-        
-        /* التنسيق الجديد لخانة "متاح للتطور" */
-        .available {
-            background-color: #fffdf5 !important;
-            color: #b38b22;
-            border: 2px dashed #d4af37 !important;
-            font-weight: 800;
-        }
-        
-        .btn-container {
-            margin-top: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
+            font-weight: 500;
+            color: rgba(255,255,255,0.65);
+            position: relative;
+            z-index: 1;
+            display: inline-block;
         }
 
-        .instruction-text {
-            color: #1a3c6b;
-            font-size: 16px;
-            margin-bottom: 15px;
-            background-color: #fff3cd;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 1px solid #ffeeba;
+        /* ─── BOTTOM HEADER BORDER ────────────────── */
+        .header-bottom-accent {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent);
+        }
+
+        /* ─── TABLE AREA ──────────────────────────── */
+        .table-container {
+            padding: 28px 36px 32px;
+            background: var(--cream);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(201,162,39,0.25),
+                0 4px 20px rgba(7,23,46,0.08);
+        }
+
+        /* ─── TABLE HEAD ──────────────────────────── */
+        th {
+            background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy) 100%);
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 18px 14px 14px;
+            border-bottom: none;
+            border-left: 1px solid rgba(201,162,39,0.2);
+            letter-spacing: 0.01em;
+            vertical-align: top;
+        }
+        th:last-child { border-left: none; }
+
+        .time-badge {
+            display: inline-block;
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(201,162,39,0.4);
+        }
+
+        /* ─── TABLE BODY ──────────────────────────── */
+        tr { transition: background 0.2s; }
+
+        td {
+            padding: 18px 14px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--navy);
+            border-top: 1px solid rgba(201,162,39,0.18);
+            border-left: 1px solid rgba(201,162,39,0.18);
+            background: #fff;
+            transition: background 0.15s;
+        }
+        td:last-child { border-left: none; }
+
+        tr:nth-child(even) td { background: #f8f5ec; }
+        tr:hover td { background: #fdf6df !important; }
+
+        /* day column */
+        td.day-col {
+            background: linear-gradient(135deg, #eef2f8, #e4eaf4) !important;
+            color: var(--navy);
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+        }
+        tr:hover td.day-col { background: linear-gradient(135deg, #dce7f5, #d3dff0) !important; }
+
+        /* available slot */
+        td.available {
+            background: linear-gradient(135deg, #fffdf0, #fef8d6) !important;
+            color: var(--gold);
+            border: 2px dashed var(--gold) !important;
+            font-weight: 800;
+        }
+
+        /* ─── CONTENTEDITABLE FOCUS ───────────────── */
+        [contenteditable="true"] {
+            outline: none;
+            border-radius: 6px;
+            padding: 2px 6px;
+            transition: background 0.2s, box-shadow 0.2s;
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            background: rgba(201,162,39,0.12) !important;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+
+        /* ─── FOOTER LINE ─────────────────────────── */
+        .card-border-bottom {
+            height: 5px;
+            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+        }
+
+        /* ─── DOWNLOAD BUTTON ─────────────────────── */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
         }
 
         .download-btn {
-            background-color: #0a1f3d;
-            color: #d4af37;
-            border: 2px solid #d4af37;
-            padding: 12px 25px;
-            font-size: 18px;
+            background: linear-gradient(135deg, var(--navy-mid), var(--navy));
+            color: var(--gold-light);
+            border: 1.5px solid var(--gold);
+            padding: 14px 36px;
+            font-size: 17px;
             font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            border-radius: 8px;
+            font-weight: 700;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 6px 24px rgba(7,23,46,0.5), 0 0 0 1px rgba(201,162,39,0.15);
+            transition: all 0.25s ease;
+            letter-spacing: 0.02em;
         }
         .download-btn:hover {
-            background-color: #1a3c6b;
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+            color: #fff;
             transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(7,23,46,0.6), 0 0 0 2px var(--gold);
+        }
+        .download-btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <div class="btn-container">
-        <div class="instruction-text">💡 <strong>تلميح:</strong> اضغط على أي اسم أو على رقم الأسبوع في الجدول لتعديله مباشرة قبل التحميل!</div>
+    <div class="hint-banner">
+        <span>✏️</span>
+        <span>اضغط على أي اسم أو على رقم الأسبوع لتعديله مباشرةً قبل التحميل</span>
     </div>
 
     <div class="scroll-wrapper">
         <div class="infographic-container" id="capture-area">
+
+            <div class="card-border-top"></div>
+
             <div class="header">
+                <span class="ornament-right">❋</span>
+
                 <div class="logos">
-                    <img src="faculty-logo.png" alt="شعار الكلية" class="logo-img" onerror="this.style.display='none'">
-                    <img src="club-logo.png" alt="شعار النادي" class="logo-img" onerror="this.style.display='none'">
+                    <img src="faculty-logo.png" alt="شعار الكلية" class="logo-img"
+                         onerror="this.outerHTML='<div class=\'logo-placeholder\'>🏛️</div>'">
+                    <img src="club-logo.png" alt="شعار النادي" class="logo-img"
+                         onerror="this.outerHTML='<div class=\'logo-placeholder\'>📖</div>'">
                 </div>
-                <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي | مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
-                <p class="subtitle" contenteditable="true">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
+
+                <div class="header-divider"></div>
+
+                <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي &nbsp;|&nbsp; مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
+                <p class="subtitle" contenteditable="true">
+                    السداسي الثاني — الموسم الجامعي: 2025-2026 &nbsp;|&nbsp; الأسبوع الخامس (05)
+                </p>
             </div>
+
+            <div class="header-bottom-accent"></div>
 
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th width="20%">اليوم</th>
-                            <th width="40%">الفترة الصباحية <span class="time-subtext">08:30 إلى 12:45</span></th>
-                            <th width="40%">الفترة المسائية <span class="time-subtext">12:30 إلى 15:30</span></th>
+                            <th width="40%">
+                                الفترة الصباحية
+                                <br><span class="time-badge">08:30 — 12:45</span>
+                            </th>
+                            <th width="40%">
+                                الفترة المسائية
+                                <br><span class="time-badge">12:30 — 15:30</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -223,7 +386,7 @@
                         <tr>
                             <td class="day-col">الثلاثاء</td>
                             <td contenteditable="true">نريمان</td>
-                            <td class="available" contenteditable="true">متاح للتطور ✨</td>
+                            <td class="available" contenteditable="true">متاح للتطوع ✨</td>
                         </tr>
                         <tr>
                             <td class="day-col">الأربعاء</td>
@@ -238,38 +401,35 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="card-border-bottom"></div>
         </div>
     </div>
 
     <div class="btn-container">
         <button class="download-btn" onclick="downloadTable()">
-            📥 تحميل الجدول بصيغة PNG
+            📥 &nbsp; تحميل الجدول بصيغة PNG
         </button>
     </div>
 
     <script>
         function downloadTable() {
             const element = document.getElementById('capture-area');
-            
-            if (document.activeElement) {
-                document.activeElement.blur();
-            }
-
+            if (document.activeElement) document.activeElement.blur();
             html2canvas(element, {
-                scale: 2, 
-                backgroundColor: "#ffffff",
+                scale: 2,
+                backgroundColor: "#fdfaf2",
                 useCORS: true,
-                windowWidth: 850,
+                windowWidth: 860,
                 scrollX: 0,
                 scrollY: 0
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'جدول_مداومة_نادي_جسور.png';
+                link.download = 'جدول_مداومة_النادي.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
         }
     </script>
-
 </body>
 </html>
