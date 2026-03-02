@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجدول الأسبوعي لمداومة النادي</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -305,7 +305,6 @@
             box-shadow: 0 6px 24px rgba(7,23,46,0.5), 0 0 0 1px rgba(201,162,39,0.15);
             transition: all 0.25s ease;
             -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
         .download-btn:hover {
             background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
@@ -446,85 +445,45 @@
     </div>
 
     <script>
-    async function downloadTable() {
-        const source  = document.getElementById('capture-area');
+    function downloadTable() {
+        const source = document.getElementById('capture-area');
         const overlay = document.getElementById('loading-overlay');
 
+        // إزالة التركيز عن أي حقل نصي لتجنب ظهور الإطار المضيء في الصورة
         if (document.activeElement) document.activeElement.blur();
+        
+        // إظهار واجهة التحميل الدائرية
         overlay.classList.add('show');
 
-        try {
-            await document.fonts.ready;
+        // حيلة برمجية: إجبار الجدول على اتخاذ عرض ثابت مؤقتاً لضمان عدم تشوهه عند التحميل من شاشات الهواتف
+        const originalWidth = source.style.width;
+        const originalMaxWidth = source.style.maxWidth;
+        source.style.width = '820px';
+        source.style.maxWidth = '820px';
 
-            /*
-             * Strategy: Clone the card, force it to 820px desktop width,
-             * append off-screen (no transform), capture at 2.5x DPR,
-             * then remove clone.
-             * This avoids the clipping that CSS-transform-scale caused.
-             */
-            const DESKTOP_W = 820;
-            const SCALE     = 2.5;
-
-            const clone = source.cloneNode(true);
-            Object.assign(clone.style, {
-                position:   'fixed',
-                top:        '-99999px',
-                left:       '-99999px',
-                width:      DESKTOP_W + 'px',
-                minWidth:   DESKTOP_W + 'px',
-                maxWidth:   DESKTOP_W + 'px',
-                borderRadius: '20px',
-                overflow:   'hidden',
-                visibility: 'hidden',
-                pointerEvents: 'none',
-                // Reset any inherited clamp/vw sizing
-                fontSize:   '16px',
-            });
-            document.body.appendChild(clone);
-
-            // Let browser render the clone fully
-            await new Promise(r => requestAnimationFrame(() => setTimeout(r, 250)));
-
-            const H = clone.offsetHeight;
-
-            const dataUrl = await domtoimage.toPng(clone, {
-                width:   DESKTOP_W * SCALE,
-                height:  H * SCALE,
-                bgcolor: '#fdfaf2',
-                style: {
-                    transform:       `scale(${SCALE})`,
-                    transformOrigin: 'top left',
-                    width:  DESKTOP_W + 'px',
-                    height: H + 'px',
-                }
-            });
-
-            document.body.removeChild(clone);
-
-            const link = document.createElement('a');
-            link.download = 'جدول_مداومة_النادي.png';
-            link.href = dataUrl;
-            link.click();
-
-        } catch (err) {
-            console.error('خطأ في التحميل:', err);
-            // Fallback: try capturing source directly without scaling
-            try {
-                const dataUrl = await domtoimage.toPng(source, { bgcolor: '#fdfaf2' });
+        // استخدام مؤقت بسيط لضمان تحديث الأبعاد وظهور واجهة التحميل
+        setTimeout(() => {
+            html2canvas(source, {
+                scale: 2.5, // دقة عالية جداً للصورة
+                backgroundColor: "#fdfaf2", // نفس لون الخلفية القشدي
+                useCORS: true,
+                width: 820,
+                windowWidth: 820
+            }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'جدول_مداومة_النادي.png';
-                link.href = dataUrl;
+                link.download = 'جدول_مداومة_جسور.png';
+                link.href = canvas.toDataURL('image/png');
                 link.click();
-            } catch(e) {
-                alert('حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة مرة أخرى.');
-            }
-        } finally {
-            overlay.classList.remove('show');
-            // Safety: remove any leftover clones
-            document.querySelectorAll('[style*="-99999px"]').forEach(el => {
-                if (el !== source) el.remove();
+            }).catch(err => {
+                console.error('خطأ أثناء التحميل:', err);
+                alert('حدث خطأ أثناء حفظ الصورة. يرجى المحاولة مجدداً.');
+            }).finally(() => {
+                // إرجاع الأبعاد الأصلية وإخفاء واجهة التحميل
+                source.style.width = originalWidth;
+                source.style.maxWidth = originalMaxWidth;
+                overlay.classList.remove('show');
             });
-        }
+        }, 400); // تأخير 400 جزء من الثانية
     }
     </script>
 
