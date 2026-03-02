@@ -10,26 +10,25 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --navy:        #07172e;
-            --navy-mid:    #0e2a4d;
-            --navy-light:  #16406e;
-            --gold:        #c9a227;
-            --gold-light:  #e2bd5a;
-            --gold-pale:   #f7eec8;
-            --cream:       #fdfaf2;
-            --border:      rgba(201,162,39,0.35);
-            --shadow:      rgba(7,23,46,0.55);
+            --navy:       #07172e;
+            --navy-mid:   #0e2a4d;
+            --navy-light: #16406e;
+            --gold:       #c9a227;
+            --gold-light: #e2bd5a;
+            --cream:      #fdfaf2;
+            --border:     rgba(201,162,39,0.35);
+            --shadow:     rgba(7,23,46,0.55);
         }
 
         body {
-            background: radial-gradient(ellipse at 60% 0%, #1a3a6b 0%, #07172e 60%);
+            background: radial-gradient(ellipse at 60% 0%, #1a3a6b 0%, #07172e 65%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: clamp(20px, 4vw, 40px) clamp(10px, 3vw, 20px);
             font-family: 'Tajawal', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 28px;
+            gap: clamp(16px, 3vw, 28px);
         }
 
         /* ─── HINT BANNER ─────────────────────────── */
@@ -37,14 +36,15 @@
             background: linear-gradient(135deg, rgba(201,162,39,0.15), rgba(201,162,39,0.05));
             border: 1px solid var(--border);
             color: var(--gold-light);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 15px;
-            letter-spacing: 0.02em;
+            font-size: clamp(12px, 2.5vw, 15px);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-align: center;
+            max-width: 92vw;
         }
 
         /* ─── SCROLL WRAPPER ──────────────────────── */
@@ -53,89 +53,72 @@
             overflow-x: auto;
             display: flex;
             justify-content: center;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* ─── CARD ────────────────────────────────── */
         .infographic-container {
-            width: 820px;
+            width: min(820px, 100%);
             flex-shrink: 0;
             background: var(--cream);
-            border-radius: 20px;
+            border-radius: clamp(12px, 2vw, 20px);
             overflow: hidden;
             box-shadow:
                 0 0 0 1px var(--border),
                 0 0 0 4px rgba(201,162,39,0.08),
-                0 30px 80px var(--shadow),
-                0 8px 24px rgba(0,0,0,0.3);
-            position: relative;
+                0 20px 60px var(--shadow),
+                0 6px 20px rgba(0,0,0,0.3);
         }
 
-        /* ─── DECORATIVE TOP BORDER ───────────────── */
-        .card-border-top {
+        /* ─── GOLD STRIPES ────────────────────────── */
+        .card-border-top, .card-border-bottom {
             height: 5px;
-            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+            background: linear-gradient(90deg,
+                transparent 0%, var(--gold) 25%,
+                var(--gold-light) 50%,
+                var(--gold) 75%, transparent 100%);
         }
 
         /* ─── HEADER ──────────────────────────────── */
         .header {
-            background:
-                linear-gradient(160deg, #0b1e3a 0%, #122645 45%, #0d2040 100%);
-            padding: 30px 48px 26px;
+            background: linear-gradient(160deg, #0b1e3a 0%, #122645 50%, #0d2040 100%);
+            padding: clamp(18px,3vw,30px) clamp(14px,4vw,48px) clamp(14px,2.5vw,26px);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-
-        /* diagonal stripe texture — matches the image */
         .header::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                repeating-linear-gradient(
-                    -45deg,
-                    transparent 0px,
-                    transparent 18px,
-                    rgba(255,255,255,0.025) 18px,
-                    rgba(255,255,255,0.025) 19px
-                ),
-                repeating-linear-gradient(
-                    45deg,
-                    transparent 0px,
-                    transparent 18px,
-                    rgba(255,255,255,0.018) 18px,
-                    rgba(255,255,255,0.018) 19px
-                );
+                repeating-linear-gradient(-45deg, transparent 0px, transparent 18px,
+                    rgba(255,255,255,0.025) 18px, rgba(255,255,255,0.025) 19px),
+                repeating-linear-gradient(45deg, transparent 0px, transparent 18px,
+                    rgba(255,255,255,0.018) 18px, rgba(255,255,255,0.018) 19px);
             pointer-events: none;
         }
-
-        /* soft centre glow like in the image */
         .header-glow {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: radial-gradient(ellipse 70% 90% at 50% 50%,
-                rgba(22,64,110,0.6) 0%,
-                transparent 70%);
+                rgba(22,64,110,0.55) 0%, transparent 70%);
             pointer-events: none;
-            z-index: 0;
         }
-
-        /* corner ornaments */
         .header::after {
             content: '✦';
             position: absolute;
-            bottom: 14px;
-            left: 26px;
-            font-size: 18px;
+            bottom: clamp(8px,1.5vw,14px);
+            left: clamp(12px,2vw,26px);
+            font-size: clamp(12px,1.8vw,18px);
             color: rgba(201,162,39,0.35);
             pointer-events: none;
             z-index: 1;
         }
         .ornament-right {
             position: absolute;
-            bottom: 14px;
-            right: 26px;
-            font-size: 18px;
+            bottom: clamp(8px,1.5vw,14px);
+            right: clamp(12px,2vw,26px);
+            font-size: clamp(12px,1.8vw,18px);
             color: rgba(201,162,39,0.35);
             pointer-events: none;
             z-index: 1;
@@ -146,21 +129,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: clamp(10px,2vw,16px);
             position: relative;
             z-index: 2;
         }
-
-        /* circular logo frame — key visual from the image */
         .logo-frame {
-            width: 82px;
-            height: 82px;
+            width: clamp(54px,9vw,82px);
+            height: clamp(54px,9vw,82px);
             border-radius: 50%;
             background: radial-gradient(circle, #f5f0e0 0%, #e8dfc0 100%);
             border: 3px solid var(--gold);
             box-shadow:
                 0 0 0 2px rgba(201,162,39,0.2),
-                0 0 18px rgba(201,162,39,0.3),
+                0 0 16px rgba(201,162,39,0.3),
                 inset 0 1px 4px rgba(255,255,255,0.5);
             display: flex;
             align-items: center;
@@ -168,139 +149,107 @@
             overflow: hidden;
             flex-shrink: 0;
         }
-
         .logo-frame img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            border-radius: 50%;
+            width: 85%; height: 85%;
+            object-fit: contain; border-radius: 50%;
         }
+        .logo-fallback { font-size: clamp(20px,4vw,30px); }
 
-        .logo-frame .logo-fallback {
-            font-size: 30px;
-        }
-
-        /* ─── HEADER CENTER (title block) ─────────── */
+        /* ─── HEADER CENTER ───────────────────────── */
         .header-center {
             flex: 1;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
+            padding: 0 clamp(8px,2vw,20px);
+            position: relative; z-index: 2;
         }
-
-        /* thin gold rule above title */
         .title-rule {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: clamp(5px,1.5vw,10px);
         }
         .title-rule-line {
-            flex: 1;
-            height: 1px;
+            flex: 1; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(201,162,39,0.6));
         }
         .title-rule-line.mirror {
             background: linear-gradient(90deg, rgba(201,162,39,0.6), transparent);
         }
         .title-rule-diamond {
-            width: 8px;
-            height: 8px;
+            width: 7px; height: 7px;
             background: var(--gold);
             transform: rotate(45deg);
             flex-shrink: 0;
-            box-shadow: 0 0 6px rgba(201,162,39,0.6);
+            box-shadow: 0 0 5px rgba(201,162,39,0.6);
         }
-
         .main-title {
             font-family: 'Amiri', serif;
-            font-size: 32px;
+            font-size: clamp(15px, 3.5vw, 32px);
             color: var(--gold-light);
-            margin-bottom: 10px;
-            text-shadow:
-                0 2px 16px rgba(0,0,0,0.6),
-                0 0 40px rgba(201,162,39,0.15);
+            margin-bottom: clamp(5px,1.5vw,10px);
+            text-shadow: 0 2px 16px rgba(0,0,0,0.6);
             line-height: 1.5;
-            position: relative;
-            z-index: 2;
             letter-spacing: 0.01em;
         }
-
-        /* thin rule below title, above subtitle */
         .subtitle-rule {
-            width: 55%;
-            height: 1px;
+            width: 55%; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(201,162,39,0.45), transparent);
-            margin: 0 auto 10px;
+            margin: 0 auto clamp(5px,1.5vw,10px);
         }
-
         .subtitle {
-            font-size: 14.5px;
+            font-size: clamp(9px, 2vw, 14.5px);
             font-weight: 500;
             color: rgba(220,228,240,0.72);
-            position: relative;
-            z-index: 2;
             display: inline-block;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
         }
 
-        /* ─── BOTTOM HEADER BORDER ────────────────── */
+        /* ─── HEADER BOTTOM ACCENT ────────────────── */
         .header-bottom-accent {
             height: 4px;
-            background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent);
+            background: linear-gradient(90deg,
+                transparent, var(--gold) 20%,
+                var(--gold-light) 50%, var(--gold) 80%, transparent);
         }
 
         /* ─── TABLE AREA ──────────────────────────── */
         .table-container {
-            padding: 28px 36px 32px;
+            padding: clamp(12px,3vw,28px) clamp(8px,3.5vw,36px) clamp(14px,3.5vw,32px);
             background: var(--cream);
+            overflow-x: auto;
         }
-
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow:
-                0 0 0 1px rgba(201,162,39,0.25),
-                0 4px 20px rgba(7,23,46,0.08);
+            min-width: 340px;
+            box-shadow: 0 0 0 1px rgba(201,162,39,0.25), 0 4px 20px rgba(7,23,46,0.08);
         }
-
-        /* ─── TABLE HEAD ──────────────────────────── */
         th {
             background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy) 100%);
             color: #fff;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 18px;
+            font-size: clamp(12px, 2.2vw, 18px);
             font-weight: 700;
-            padding: 18px 14px 14px;
-            border-bottom: none;
+            padding: clamp(10px,2vw,18px) clamp(6px,1.5vw,14px) clamp(8px,1.5vw,14px);
             border-left: 1px solid rgba(201,162,39,0.2);
-            letter-spacing: 0.01em;
             vertical-align: top;
         }
         th:last-child { border-left: none; }
-
         .time-badge {
             display: inline-block;
-            margin-top: 8px;
+            margin-top: clamp(4px,1vw,8px);
             background: linear-gradient(135deg, var(--gold), var(--gold-light));
             color: var(--navy);
-            font-size: 13px;
+            font-size: clamp(9px,1.8vw,13px);
             font-weight: 800;
-            padding: 4px 14px;
+            padding: 3px clamp(7px,1.5vw,14px);
             border-radius: 20px;
             box-shadow: 0 2px 8px rgba(201,162,39,0.4);
+            white-space: nowrap;
         }
-
-        /* ─── TABLE BODY ──────────────────────────── */
-        tr { transition: background 0.2s; }
-
         td {
-            padding: 18px 14px;
+            padding: clamp(11px,2vw,18px) clamp(6px,1.5vw,14px);
             text-align: center;
-            font-size: 21px;
+            font-size: clamp(13px, 2.5vw, 21px);
             font-weight: 800;
             color: var(--navy);
             border-top: 1px solid rgba(201,162,39,0.18);
@@ -309,21 +258,15 @@
             transition: background 0.15s;
         }
         td:last-child { border-left: none; }
-
         tr:nth-child(even) td { background: #f8f5ec; }
         tr:hover td { background: #fdf6df !important; }
-
-        /* day column */
         td.day-col {
             background: linear-gradient(135deg, #eef2f8, #e4eaf4) !important;
             color: var(--navy);
-            font-size: 19px;
+            font-size: clamp(12px, 2.2vw, 19px);
             font-weight: 900;
-            letter-spacing: 0.01em;
         }
-        tr:hover td.day-col { background: linear-gradient(135deg, #dce7f5, #d3dff0) !important; }
-
-        /* available slot */
+        tr:hover td.day-col { background: linear-gradient(135deg,#dce7f5,#d3dff0) !important; }
         td.available {
             background: linear-gradient(135deg, #fffdf0, #fef8d6) !important;
             color: var(--gold);
@@ -331,11 +274,11 @@
             font-weight: 800;
         }
 
-        /* ─── CONTENTEDITABLE FOCUS ───────────────── */
+        /* ─── CONTENTEDITABLE ─────────────────────── */
         [contenteditable="true"] {
             outline: none;
             border-radius: 6px;
-            padding: 2px 6px;
+            padding: 2px 5px;
             transition: background 0.2s, box-shadow 0.2s;
             cursor: text;
         }
@@ -344,26 +287,14 @@
             box-shadow: 0 0 0 2px var(--gold);
         }
 
-        /* ─── FOOTER LINE ─────────────────────────── */
-        .card-border-bottom {
-            height: 5px;
-            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
-        }
-
         /* ─── DOWNLOAD BUTTON ─────────────────────── */
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-
+        .btn-container { display: flex; flex-direction: column; align-items: center; }
         .download-btn {
             background: linear-gradient(135deg, var(--navy-mid), var(--navy));
             color: var(--gold-light);
             border: 1.5px solid var(--gold);
-            padding: 14px 36px;
-            font-size: 17px;
+            padding: clamp(10px,2vw,14px) clamp(22px,4vw,36px);
+            font-size: clamp(14px,2.5vw,17px);
             font-family: 'Tajawal', sans-serif;
             font-weight: 700;
             border-radius: 50px;
@@ -373,7 +304,8 @@
             gap: 10px;
             box-shadow: 0 6px 24px rgba(7,23,46,0.5), 0 0 0 1px rgba(201,162,39,0.15);
             transition: all 0.25s ease;
-            letter-spacing: 0.02em;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         .download-btn:hover {
             background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
@@ -381,21 +313,50 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 32px rgba(7,23,46,0.6), 0 0 0 2px var(--gold);
         }
-        .download-btn:active {
-            transform: translateY(0);
+        .download-btn:active { transform: translateY(0); }
+
+        /* ─── LOADING OVERLAY ─────────────────────── */
+        .loading-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(7,23,46,0.75);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .loading-overlay.show { display: flex; }
+        .spinner {
+            width: 48px; height: 48px;
+            border: 4px solid rgba(201,162,39,0.3);
+            border-top-color: var(--gold-light);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text {
+            color: var(--gold-light);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px; font-weight: 600;
         }
     </style>
 </head>
 <body>
 
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">جارٍ تحضير الصورة…</div>
+    </div>
+
     <div class="hint-banner">
         <span>✏️</span>
-        <span>اضغط على أي اسم أو على رقم الأسبوع لتعديله مباشرةً قبل التحميل</span>
+        <span>اضغط على أي اسم أو رقم الأسبوع لتعديله مباشرةً قبل التحميل</span>
     </div>
 
     <div class="scroll-wrapper">
         <div class="infographic-container" id="capture-area">
-
             <div class="card-border-top"></div>
 
             <div class="header">
@@ -403,13 +364,11 @@
                 <span class="ornament-right">✦</span>
 
                 <div class="logos">
-                    <!-- Logo Right (faculty) -->
-                    <div class="logo-frame" id="logo-faculty">
+                    <div class="logo-frame">
                         <img src="faculty-logo.png" alt="شعار الكلية"
                              onerror="this.parentElement.innerHTML='<span class=\'logo-fallback\'>🏛️</span>'">
                     </div>
 
-                    <!-- Center title block -->
                     <div class="header-center">
                         <div class="title-rule">
                             <span class="title-rule-line"></span>
@@ -423,8 +382,7 @@
                         </p>
                     </div>
 
-                    <!-- Logo Left (club) -->
-                    <div class="logo-frame" id="logo-club">
+                    <div class="logo-frame">
                         <img src="club-logo.png" alt="شعار النادي"
                              onerror="this.parentElement.innerHTML='<span class=\'logo-fallback\'>📖</span>'">
                     </div>
@@ -438,14 +396,8 @@
                     <thead>
                         <tr>
                             <th width="20%">اليوم</th>
-                            <th width="40%">
-                                الفترة الصباحية
-                                <br><span class="time-badge">08:30 — 12:45</span>
-                            </th>
-                            <th width="40%">
-                                الفترة المسائية
-                                <br><span class="time-badge">12:30 — 15:30</span>
-                            </th>
+                            <th width="40%">الفترة الصباحية<br><span class="time-badge">08:30 — 12:45</span></th>
+                            <th width="40%">الفترة المسائية<br><span class="time-badge">12:30 — 15:30</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -489,43 +441,92 @@
 
     <div class="btn-container">
         <button class="download-btn" onclick="downloadTable()">
-            📥 &nbsp; تحميل الجدول بصيغة PNG
+            📥 &nbsp;تحميل الجدول بصيغة PNG
         </button>
     </div>
 
     <script>
-        function downloadTable() {
-            const element = document.getElementById('capture-area');
-            if (document.activeElement) document.activeElement.blur();
+    async function downloadTable() {
+        const source  = document.getElementById('capture-area');
+        const overlay = document.getElementById('loading-overlay');
 
-            const scale = 2.5;
-            const width  = element.offsetWidth  * scale;
-            const height = element.offsetHeight * scale;
+        if (document.activeElement) document.activeElement.blur();
+        overlay.classList.add('show');
 
-            // Force font preload before capture
-            document.fonts.ready.then(() => {
-                domtoimage.toPng(element, {
-                    width,
-                    height,
-                    quality: 1,
-                    bgcolor: '#fdfaf2',
-                    style: {
-                        transform: `scale(${scale})`,
-                        transformOrigin: 'top right',
-                        width:  element.offsetWidth  + 'px',
-                        height: element.offsetHeight + 'px',
-                    }
-                }).then(dataUrl => {
-                    const link = document.createElement('a');
-                    link.download = 'جدول_مداومة_النادي.png';
-                    link.href = dataUrl;
-                    link.click();
-                }).catch(err => {
-                    console.error('خطأ في التحميل:', err);
-                    alert('حدث خطأ أثناء التحميل. يرجى المحاولة مرة أخرى.');
-                });
+        try {
+            await document.fonts.ready;
+
+            /*
+             * Strategy: Clone the card, force it to 820px desktop width,
+             * append off-screen (no transform), capture at 2.5x DPR,
+             * then remove clone.
+             * This avoids the clipping that CSS-transform-scale caused.
+             */
+            const DESKTOP_W = 820;
+            const SCALE     = 2.5;
+
+            const clone = source.cloneNode(true);
+            Object.assign(clone.style, {
+                position:   'fixed',
+                top:        '-99999px',
+                left:       '-99999px',
+                width:      DESKTOP_W + 'px',
+                minWidth:   DESKTOP_W + 'px',
+                maxWidth:   DESKTOP_W + 'px',
+                borderRadius: '20px',
+                overflow:   'hidden',
+                visibility: 'hidden',
+                pointerEvents: 'none',
+                // Reset any inherited clamp/vw sizing
+                fontSize:   '16px',
+            });
+            document.body.appendChild(clone);
+
+            // Let browser render the clone fully
+            await new Promise(r => requestAnimationFrame(() => setTimeout(r, 250)));
+
+            const H = clone.offsetHeight;
+
+            const dataUrl = await domtoimage.toPng(clone, {
+                width:   DESKTOP_W * SCALE,
+                height:  H * SCALE,
+                bgcolor: '#fdfaf2',
+                style: {
+                    transform:       `scale(${SCALE})`,
+                    transformOrigin: 'top left',
+                    width:  DESKTOP_W + 'px',
+                    height: H + 'px',
+                }
+            });
+
+            document.body.removeChild(clone);
+
+            const link = document.createElement('a');
+            link.download = 'جدول_مداومة_النادي.png';
+            link.href = dataUrl;
+            link.click();
+
+        } catch (err) {
+            console.error('خطأ في التحميل:', err);
+            // Fallback: try capturing source directly without scaling
+            try {
+                const dataUrl = await domtoimage.toPng(source, { bgcolor: '#fdfaf2' });
+                const link = document.createElement('a');
+                link.download = 'جدول_مداومة_النادي.png';
+                link.href = dataUrl;
+                link.click();
+            } catch(e) {
+                alert('حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة مرة أخرى.');
+            }
+        } finally {
+            overlay.classList.remove('show');
+            // Safety: remove any leftover clones
+            document.querySelectorAll('[style*="-99999px"]').forEach(el => {
+                if (el !== source) el.remove();
             });
         }
+    }
     </script>
+
 </body>
 </html>
