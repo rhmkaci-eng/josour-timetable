@@ -31,7 +31,6 @@
             gap: clamp(16px, 3vw, 28px);
         }
 
-        /* ─── HINT BANNER ─────────────────────────── */
         .hint-banner {
             background: linear-gradient(135deg, rgba(201,162,39,0.15), rgba(201,162,39,0.05));
             border: 1px solid var(--border);
@@ -47,7 +46,6 @@
             max-width: 92vw;
         }
 
-        /* ─── SCROLL WRAPPER ──────────────────────── */
         .scroll-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -56,7 +54,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* ─── CARD ────────────────────────────────── */
         .infographic-container {
             width: min(820px, 100%);
             flex-shrink: 0;
@@ -70,7 +67,6 @@
                 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        /* ─── GOLD STRIPES ────────────────────────── */
         .card-border-top, .card-border-bottom {
             height: 5px;
             background: linear-gradient(90deg,
@@ -79,7 +75,6 @@
                 var(--gold) 75%, transparent 100%);
         }
 
-        /* ─── HEADER ──────────────────────────────── */
         .header {
             background: linear-gradient(160deg, #0b1e3a 0%, #122645 50%, #0d2040 100%);
             padding: clamp(18px,3vw,30px) clamp(14px,4vw,48px) clamp(14px,2.5vw,26px);
@@ -124,7 +119,6 @@
             z-index: 1;
         }
 
-        /* ─── LOGOS ROW ───────────────────────────── */
         .logos {
             display: flex;
             justify-content: space-between;
@@ -155,7 +149,6 @@
         }
         .logo-fallback { font-size: clamp(20px,4vw,30px); }
 
-        /* ─── HEADER CENTER ───────────────────────── */
         .header-center {
             flex: 1;
             padding: 0 clamp(8px,2vw,20px);
@@ -179,6 +172,8 @@
             flex-shrink: 0;
             box-shadow: 0 0 5px rgba(201,162,39,0.6);
         }
+        
+        /* هنا تم إزالة letter-spacing الذي سبب المشكلة */
         .main-title {
             font-family: 'Amiri', serif;
             font-size: clamp(15px, 3.5vw, 32px);
@@ -186,22 +181,18 @@
             margin-bottom: clamp(5px,1.5vw,10px);
             text-shadow: 0 2px 16px rgba(0,0,0,0.6);
             line-height: 1.5;
-            letter-spacing: 0.01em;
+            text-rendering: optimizeLegibility; 
         }
-        .subtitle-rule {
-            width: 55%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201,162,39,0.45), transparent);
-            margin: 0 auto clamp(5px,1.5vw,10px);
-        }
+        
+        /* هنا تم إزالة letter-spacing الذي سبب المشكلة */
         .subtitle {
             font-size: clamp(9px, 2vw, 14.5px);
             font-weight: 500;
             color: rgba(220,228,240,0.72);
             display: inline-block;
-            letter-spacing: 0.02em;
+            text-rendering: optimizeLegibility;
         }
 
-        /* ─── HEADER BOTTOM ACCENT ────────────────── */
         .header-bottom-accent {
             height: 4px;
             background: linear-gradient(90deg,
@@ -209,7 +200,6 @@
                 var(--gold-light) 50%, var(--gold) 80%, transparent);
         }
 
-        /* ─── TABLE AREA ──────────────────────────── */
         .table-container {
             padding: clamp(12px,3vw,28px) clamp(8px,3.5vw,36px) clamp(14px,3.5vw,32px);
             background: var(--cream);
@@ -274,7 +264,6 @@
             font-weight: 800;
         }
 
-        /* ─── CONTENTEDITABLE ─────────────────────── */
         [contenteditable="true"] {
             outline: none;
             border-radius: 6px;
@@ -287,7 +276,6 @@
             box-shadow: 0 0 0 2px var(--gold);
         }
 
-        /* ─── DOWNLOAD BUTTON ─────────────────────── */
         .btn-container { display: flex; flex-direction: column; align-items: center; }
         .download-btn {
             background: linear-gradient(135deg, var(--navy-mid), var(--navy));
@@ -314,7 +302,6 @@
         }
         .download-btn:active { transform: translateY(0); }
 
-        /* ─── LOADING OVERLAY ─────────────────────── */
         .loading-overlay {
             display: none;
             position: fixed; inset: 0;
@@ -445,27 +432,26 @@
     </div>
 
     <script>
-    function downloadTable() {
+    async function downloadTable() {
         const source = document.getElementById('capture-area');
         const overlay = document.getElementById('loading-overlay');
 
-        // إزالة التركيز عن أي حقل نصي لتجنب ظهور الإطار المضيء في الصورة
         if (document.activeElement) document.activeElement.blur();
         
-        // إظهار واجهة التحميل الدائرية
         overlay.classList.add('show');
 
-        // حيلة برمجية: إجبار الجدول على اتخاذ عرض ثابت مؤقتاً لضمان عدم تشوهه عند التحميل من شاشات الهواتف
+        // انتظار تحميل الخطوط بشكل كامل قبل أخذ الصورة لتجنب تشوه الخطوط
+        await document.fonts.ready;
+
         const originalWidth = source.style.width;
         const originalMaxWidth = source.style.maxWidth;
         source.style.width = '820px';
         source.style.maxWidth = '820px';
 
-        // استخدام مؤقت بسيط لضمان تحديث الأبعاد وظهور واجهة التحميل
         setTimeout(() => {
             html2canvas(source, {
-                scale: 2.5, // دقة عالية جداً للصورة
-                backgroundColor: "#fdfaf2", // نفس لون الخلفية القشدي
+                scale: 2.5,
+                backgroundColor: "#fdfaf2",
                 useCORS: true,
                 width: 820,
                 windowWidth: 820
@@ -478,12 +464,11 @@
                 console.error('خطأ أثناء التحميل:', err);
                 alert('حدث خطأ أثناء حفظ الصورة. يرجى المحاولة مجدداً.');
             }).finally(() => {
-                // إرجاع الأبعاد الأصلية وإخفاء واجهة التحميل
                 source.style.width = originalWidth;
                 source.style.maxWidth = originalMaxWidth;
                 overlay.classList.remove('show');
             });
-        }, 400); // تأخير 400 جزء من الثانية
+        }, 400); 
     }
     </script>
 
