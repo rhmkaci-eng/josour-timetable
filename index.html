@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجدول الأسبوعي لمداومة النادي</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -497,18 +497,33 @@
         function downloadTable() {
             const element = document.getElementById('capture-area');
             if (document.activeElement) document.activeElement.blur();
-            html2canvas(element, {
-                scale: 2,
-                backgroundColor: "#fdfaf2",
-                useCORS: true,
-                windowWidth: 860,
-                scrollX: 0,
-                scrollY: 0
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'جدول_مداومة_النادي.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+
+            const scale = 2.5;
+            const width  = element.offsetWidth  * scale;
+            const height = element.offsetHeight * scale;
+
+            // Force font preload before capture
+            document.fonts.ready.then(() => {
+                domtoimage.toPng(element, {
+                    width,
+                    height,
+                    quality: 1,
+                    bgcolor: '#fdfaf2',
+                    style: {
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top right',
+                        width:  element.offsetWidth  + 'px',
+                        height: element.offsetHeight + 'px',
+                    }
+                }).then(dataUrl => {
+                    const link = document.createElement('a');
+                    link.download = 'جدول_مداومة_النادي.png';
+                    link.href = dataUrl;
+                    link.click();
+                }).catch(err => {
+                    console.error('خطأ في التحميل:', err);
+                    alert('حدث خطأ أثناء التحميل. يرجى المحاولة مرة أخرى.');
+                });
             });
         }
     </script>
