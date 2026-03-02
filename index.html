@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجدول الأسبوعي لمداومة النادي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
@@ -33,9 +33,11 @@
             text-align: right;
             position: relative;
         }
+        
+        /* تقليل مساحة الجزء الأزرق العلوي */
         .header {
-            background: linear-gradient(135deg, #0a1f3d, #1a3c6b);
-            padding: 30px 40px;
+            background: linear-gradient(135deg, #0a1f3d, #142e52);
+            padding: 15px 40px; /* تم تقليل الحشوة */
             text-align: center;
             position: relative;
             color: white;
@@ -45,22 +47,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* تم تقليل المسافة */
         }
         .logo-img {
-            height: 90px;
-            max-width: 130px;
+            height: 70px; /* تم تصغير الشعار قليلاً ليكسب مساحة */
+            max-width: 120px;
             object-fit: contain;
         }
         .main-title {
             font-family: 'Amiri', serif;
-            font-size: 38px;
+            font-size: 34px; /* تم تصغير الخط قليلاً ليتناسب مع المساحة الجديدة */
             color: #d4af37;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
         
-        /* تنسيق خاص للعناصر القابلة للتعديل */
         [contenteditable="true"] {
             outline: none;
             transition: background-color 0.3s;
@@ -68,43 +69,52 @@
             border-radius: 4px;
         }
         [contenteditable="true"]:focus {
-            background-color: rgba(212, 175, 55, 0.2); /* لون ذهبي خفيف عند الكتابة */
+            background-color: rgba(212, 175, 55, 0.2);
             border: 1px dashed #d4af37;
         }
 
         .subtitle {
-            font-size: 18px;
+            font-size: 17px;
             color: #e0e0e0;
             margin: 0;
             display: inline-block;
         }
         .table-container {
-            padding: 30px 40px;
+            padding: 25px 40px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
+        
+        /* تحسين عناوين الأعمدة والمواقيت */
         th {
-            background-color: #0a1f3d;
-            color: #d4af37;
-            font-size: 20px;
+            background: linear-gradient(180deg, #0a1f3d 0%, #173661 100%);
+            color: #ffffff;
+            font-size: 22px;
             padding: 15px;
             border: 1px solid #c0c0c0;
+            border-bottom: 3px solid #d4af37;
         }
         .time-subtext {
-            display: block;
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: normal;
-            margin-top: 5px;
+            display: inline-block;
+            background-color: #d4af37;
+            color: #0a1f3d;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 4px 15px;
+            border-radius: 20px; /* جعل التوقيت داخل شكل بيضاوي أنيق */
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        
+        /* تكبير الأسماء وجعلها أوضح */
         td {
             padding: 18px;
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 22px; /* تم تكبير الخط */
+            font-weight: 800; /* تم جعل الخط أعرض وأوضح */
             color: #1a3c6b;
             border: 1px solid #c0c0c0;
             background-color: #ffffff;
@@ -115,12 +125,15 @@
         .day-col {
             background-color: #eef2f5 !important;
             color: #0a1f3d;
-            font-size: 20px;
+            font-size: 22px;
         }
-        .closed {
-            background-color: #e0e0e0 !important;
-            color: #7f8c8d;
-            font-style: italic;
+        
+        /* التنسيق الجديد لخانة "متاح للتطور" */
+        .available {
+            background-color: #fffdf5 !important;
+            color: #b38b22;
+            border: 2px dashed #d4af37 !important;
+            font-weight: 800;
         }
         
         .btn-container {
@@ -168,7 +181,7 @@
 <body>
 
     <div class="btn-container">
-        <div class="instruction-text">💡 <strong>تلميح:</strong> اضغط على أي اسم أو على رقم الأسبوع في الجدول أدناه لتعديله مباشرة قبل التحميل!</div>
+        <div class="instruction-text">💡 <strong>تلميح:</strong> اضغط على أي اسم أو على رقم الأسبوع في الجدول لتعديله مباشرة قبل التحميل!</div>
     </div>
 
     <div class="scroll-wrapper">
@@ -210,7 +223,7 @@
                         <tr>
                             <td class="day-col">الثلاثاء</td>
                             <td contenteditable="true">نريمان</td>
-                            <td class="closed" contenteditable="true">مغلق 🔒</td>
+                            <td class="available" contenteditable="true">متاح للتطور ✨</td>
                         </tr>
                         <tr>
                             <td class="day-col">الأربعاء</td>
@@ -238,7 +251,6 @@
         function downloadTable() {
             const element = document.getElementById('capture-area');
             
-            // إزالة التحديد (focus) من أي مربع نص قبل التصوير لكي لا يظهر المربع الذهبي في الصورة
             if (document.activeElement) {
                 document.activeElement.blur();
             }
@@ -252,7 +264,7 @@
                 scrollY: 0
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'جدول_مداومة_الأسبوع.png';
+                link.download = 'جدول_مداومة_نادي_جسور.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
