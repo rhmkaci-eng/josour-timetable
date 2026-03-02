@@ -11,13 +11,11 @@
             background-color: #e9ecef;
             padding: 20px;
             font-family: 'Tajawal', sans-serif;
-            /* التعديل هنا للسماح بالتمرير على الهواتف */
             margin: 0;
             display: block; 
             text-align: center;
         }
         
-        /* غلاف يسمح بالتمرير الأفقي على الشاشات الصغيرة */
         .scroll-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -26,13 +24,14 @@
 
         .infographic-container {
             background: linear-gradient(to bottom, #ffffff, #f4f6f9);
-            width: 800px; /* عرض ثابت لضمان عدم تشوه التصميم */
-            margin: 0 auto; /* توسيط الجدول */
+            width: 800px;
+            margin: 0 auto;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             border: 2px solid #0a1f3d;
             text-align: right;
+            position: relative;
         }
         .header {
             background: linear-gradient(135deg, #0a1f3d, #1a3c6b);
@@ -60,10 +59,24 @@
             margin: 0 0 10px 0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
+        
+        /* تنسيق خاص للعناصر القابلة للتعديل */
+        [contenteditable="true"] {
+            outline: none;
+            transition: background-color 0.3s;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        [contenteditable="true"]:focus {
+            background-color: rgba(212, 175, 55, 0.2); /* لون ذهبي خفيف عند الكتابة */
+            border: 1px dashed #d4af37;
+        }
+
         .subtitle {
             font-size: 18px;
             color: #e0e0e0;
             margin: 0;
+            display: inline-block;
         }
         .table-container {
             padding: 30px 40px;
@@ -112,9 +125,21 @@
         
         .btn-container {
             margin-top: 10px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .instruction-text {
+            color: #1a3c6b;
+            font-size: 16px;
+            margin-bottom: 15px;
+            background-color: #fff3cd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #ffeeba;
         }
 
         .download-btn {
@@ -142,6 +167,10 @@
 </head>
 <body>
 
+    <div class="btn-container">
+        <div class="instruction-text">💡 <strong>تلميح:</strong> اضغط على أي اسم أو على رقم الأسبوع في الجدول أدناه لتعديله مباشرة قبل التحميل!</div>
+    </div>
+
     <div class="scroll-wrapper">
         <div class="infographic-container" id="capture-area">
             <div class="header">
@@ -150,7 +179,7 @@
                     <img src="club-logo.png" alt="شعار النادي" class="logo-img" onerror="this.style.display='none'">
                 </div>
                 <h1 class="main-title">الجَدْوَلُ الأُسْبُوعِي | مُدَاوَمَةُ مَقَرِّ النَّادِي</h1>
-                <p class="subtitle">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
+                <p class="subtitle" contenteditable="true">السداسي الثاني - الموسم الجامعي: 2025-2026 | الأسبوع الخامس (05)</p>
             </div>
 
             <div class="table-container">
@@ -165,33 +194,33 @@
                     <tbody>
                         <tr>
                             <td class="day-col">السبت</td>
-                            <td>محمد</td>
-                            <td>فيصل</td>
+                            <td contenteditable="true">محمد</td>
+                            <td contenteditable="true">فيصل</td>
                         </tr>
                         <tr>
                             <td class="day-col">الأحد</td>
-                            <td>أشواق</td>
-                            <td>أحمد</td>
+                            <td contenteditable="true">أشواق</td>
+                            <td contenteditable="true">أحمد</td>
                         </tr>
                         <tr>
                             <td class="day-col">الإثنين</td>
-                            <td>آية</td>
-                            <td>نعمة + هديل</td>
+                            <td contenteditable="true">آية</td>
+                            <td contenteditable="true">نعمة + هديل</td>
                         </tr>
                         <tr>
                             <td class="day-col">الثلاثاء</td>
-                            <td>نريمان</td>
-                            <td class="closed">متاح للتطوع</td>
+                            <td contenteditable="true">نريمان</td>
+                            <td class="closed" contenteditable="true">مغلق 🔒</td>
                         </tr>
                         <tr>
                             <td class="day-col">الأربعاء</td>
-                            <td>نور</td>
-                            <td>مريم</td>
+                            <td contenteditable="true">نور</td>
+                            <td contenteditable="true">مريم</td>
                         </tr>
                         <tr>
                             <td class="day-col">الخميس</td>
-                            <td>سعيد</td>
-                            <td>عبد الرزاق</td>
+                            <td contenteditable="true">سعيد</td>
+                            <td contenteditable="true">عبد الرزاق</td>
                         </tr>
                     </tbody>
                 </table>
@@ -209,12 +238,16 @@
         function downloadTable() {
             const element = document.getElementById('capture-area');
             
-            // إضافة إعدادات مخصصة للهواتف لضمان التقاط العرض بالكامل
+            // إزالة التحديد (focus) من أي مربع نص قبل التصوير لكي لا يظهر المربع الذهبي في الصورة
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+
             html2canvas(element, {
-                scale: 2, // تم تقليلها قليلاً لتعمل بسلاسة على كافة الهواتف دون تقليل الجودة بشكل ملحوظ
+                scale: 2, 
                 backgroundColor: "#ffffff",
                 useCORS: true,
-                windowWidth: 850, // إجبار المكتبة على قراءة العرض كاملاً حتى لو كانت شاشة الهاتف صغيرة
+                windowWidth: 850,
                 scrollX: 0,
                 scrollY: 0
             }).then(canvas => {
